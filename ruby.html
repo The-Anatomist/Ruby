@@ -89,11 +89,6 @@
             100% { transform: translateX(100%) rotate(30deg); }
         }
 
-        /* Smooth slide transitions */
-        .fade-step {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
         /* Custom scrollbar for love letter */
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
@@ -137,8 +132,10 @@
             <h1 class="text-3xl sm:text-4xl font-serif-romantic font-bold text-pink-100 mb-2">
                 A Secret Portal For One Very Special Person
             </h1>
+            
+            <!-- Updated home page text -->
             <p class="text-pink-200/80 text-sm sm:text-base mb-8">
-                Please enter your beautiful first name to unlock what my heart is longing to tell you...
+                Please enter your first name to unlock what my heart is longing to tell you...
             </p>
 
             <form onsubmit="handleNameSubmit(event)" class="space-y-5">
@@ -177,7 +174,7 @@
                     My love <span class="text-rose-300 font-semibold">Halima</span>,
                 </p>
                 <p>
-                    From the moment you came into my life, everything changed. You brought warmth, beauty, and pure light into world I never knew could be this soft. Your <span class="text-pink-300 font-semibold italic">mesmerizing face</span> and your radiant smile can instantly brighten up my darkest days.
+                    From the moment you came into my life, everything changed. You brought warmth, beauty, and pure light into a world I never knew could be this soft. Your <span class="text-pink-300 font-semibold italic">mesmerizing face</span> and your radiant smile can instantly brighten up my darkest days.
                 </p>
                 <p>
                     Your laugh is my absolute favorite song, and the way your eyes sparkle when you're happy is something I could admire for a thousand lifetimes. I love you like nothing else in this entire world—deeply, completely, and endlessly.
@@ -221,8 +218,8 @@
                 </div>
 
                 <!-- Stage Question Title -->
-                <h3 id="stageTitle" class="text-xl sm:text-2xl font-serif-romantic font-bold text-pink-100 mb-4 px-2">
-                    "I made a huge mistake talking to her, Halima. Can you ever forgive me?"
+                <h3 id="stageTitle" class="text-xl sm:text-2xl font-serif-romantic font-bold text-pink-100 mb-4 px-2 leading-snug">
+                    "I made a huge mistake, what I did is absolutely unforgivable but I kindly ask for for your forgiveness."
                 </h3>
 
                 <p id="stageSubtext" class="text-pink-200/80 text-sm mb-6 max-w-md mx-auto">
@@ -232,7 +229,7 @@
 
             <!-- Dynamic Interactive Buttons Area -->
             <div id="buttonsArea" class="relative w-full py-6 min-h-[160px] flex items-center justify-center gap-4 flex-wrap sm:flex-nowrap">
-                <!-- YES Button (Grows bigger) -->
+                <!-- YES Button (Grows bigger on each slide) -->
                 <button id="yesBtn" onclick="handleYesClick()" 
                         class="shimmer-btn z-20 bg-gradient-to-r from-emerald-500 via-green-500 to-teal-600 text-white font-bold rounded-2xl shadow-xl hover:shadow-green-500/40 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2"
                         style="padding: 1rem 2rem; font-size: 1.125rem;">
@@ -240,7 +237,7 @@
                     <span>YES! I Forgive You ❤️</span>
                 </button>
 
-                <!-- NO Button (Shrinks & dodges) -->
+                <!-- NO Button (Shrinks & dodges on each slide) -->
                 <button id="noBtn" onclick="handleNoClick()" 
                         onmouseenter="handleNoHover()"
                         class="z-10 bg-rose-900/60 hover:bg-rose-800/80 text-rose-200 border border-rose-500/40 font-semibold rounded-2xl shadow-md transition-all duration-300 flex items-center justify-center gap-1"
@@ -302,7 +299,7 @@
 
     </main>
 
-    <!-- ==================== COUPON MODAL ==================== -->
+    <!-- Modal for Coupon -->
     <div id="couponModal" class="fixed inset-0 z-50 modal-bg flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
         <div class="glass-card max-w-md w-full rounded-3xl p-6 sm:p-8 text-center border-2 border-amber-300/40 relative shadow-2xl">
             <button onclick="closeCouponModal()" class="absolute top-4 right-4 text-pink-300 hover:text-white text-xl p-2">
@@ -347,7 +344,7 @@
         const questStages = [
             {
                 icon: "🥺",
-                title: `"I made a huge mistake talking to her, Halima. Can you ever forgive me?"`,
+                title: `"I made a huge mistake, what I did is absolutely unforgivable but I kindly ask for your forgiveness."`,
                 subtext: "Please listen to my heart... she meant nothing, you are my everything.",
                 noText: "No 💔"
             },
@@ -389,7 +386,7 @@
             }
         ];
 
-        // Web Audio Synthesizer (for background romantic chime ambient & sound effects)
+        // Web Audio Synthesizer
         let audioContext = null;
         let isAudioPlaying = false;
         let ambientInterval = null;
@@ -400,7 +397,6 @@
             }
         }
 
-        // Play harmonic romantic chimes
         function playChime(freq = 523.25, type = 'sine', duration = 0.8) {
             if (!audioContext || !isAudioPlaying) return;
             try {
@@ -423,10 +419,9 @@
             }
         }
 
-        // Play ambient background musical notes
         function startAmbientMusic() {
             if (ambientInterval) clearInterval(ambientInterval);
-            const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99]; // C, E, G, C5, E5, G5
+            const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99];
             ambientInterval = setInterval(() => {
                 if (isAudioPlaying) {
                     const note = notes[Math.floor(Math.random() * notes.length)];
@@ -465,7 +460,6 @@
             if (val === TARGET_NAME) {
                 errorMsg.classList.add('hidden');
                 
-                // Trigger celebratory confetti on verification
                 confetti({
                     particleCount: 40,
                     spread: 60,
@@ -473,12 +467,10 @@
                     colors: ['#f43f5e', '#ec4899', '#f472b6']
                 });
 
-                // Play soft chime
                 initAudio();
                 if (audioContext && audioContext.state === 'suspended') audioContext.resume();
                 playChime(659.25, 'sine', 1);
 
-                // Transition to Step 2
                 document.getElementById('step1').classList.add('hidden');
                 const step2 = document.getElementById('step2');
                 step2.classList.remove('hidden');
@@ -515,18 +507,16 @@
             const yesBtn = document.getElementById('yesBtn');
             const noBtn = document.getElementById('noBtn');
 
-            // Reset inline styles first
+            // Reset positioning
             noBtn.style.position = "relative";
             noBtn.style.top = "0px";
             noBtn.style.left = "0px";
 
-            // Calculation based on stage index
-            // Stage 0: default sizes
-            // Stage 6: YES is enormous, NO is microscopic
-            const yesPaddingY = 1 + (currentStage * 0.5); // rem
-            const yesPaddingX = 2 + (currentStage * 0.9); // rem
-            const yesFontSize = 1.125 + (currentStage * 0.35); // rem
-            const yesGlowBlur = 20 + (currentStage * 12); // px
+            // YES Button scaling based on stage
+            const yesPaddingY = 1 + (currentStage * 0.5);
+            const yesPaddingX = 2 + (currentStage * 0.9);
+            const yesFontSize = 1.125 + (currentStage * 0.35);
+            const yesGlowBlur = 20 + (currentStage * 12);
 
             yesBtn.style.padding = `${yesPaddingY}rem ${yesPaddingX}rem`;
             yesBtn.style.fontSize = `${yesFontSize}rem`;
@@ -550,12 +540,10 @@
                 currentStage++;
                 updateStageUI();
             } else {
-                // At stage 7, force dodge
                 dodgeNoButton();
             }
         }
 
-        // Mouse dodge mechanic on later stages
         function handleNoHover() {
             if (currentStage >= 4) {
                 dodgeNoButton();
@@ -564,7 +552,7 @@
 
         function dodgeNoButton() {
             const noBtn = document.getElementById('noBtn');
-            const randomX = (Math.random() - 0.5) * 220; // translate range
+            const randomX = (Math.random() - 0.5) * 220;
             const randomY = (Math.random() - 0.5) * 140;
             noBtn.style.position = "relative";
             noBtn.style.top = `${randomY}px`;
@@ -574,7 +562,6 @@
         function handleYesClick() {
             playChime(783.99, 'sine', 1.2);
             
-            // Grand Confetti Blast
             const count = 200;
             const defaults = { origin: { y: 0.7 } };
 
@@ -590,7 +577,6 @@
             fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, colors: ['#ffe4e6', '#f43f5e'] });
             fire(0.1, { spread: 120, startVelocity: 45 });
 
-            // Transition to Celebration Finale
             document.getElementById('step3').classList.add('hidden');
             document.getElementById('step4').classList.remove('hidden');
         }
@@ -605,7 +591,6 @@
                 colors: ['#f43f5e', '#ec4899', '#ffffff']
             });
 
-            // Temporary floating heart animation
             for(let i = 0; i < 8; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
@@ -632,8 +617,6 @@
 
         function copyPromiseCode() {
             const code = "HALIMA-FOREVER-LOVE-COUPON-REDEEM-ANYTIME";
-            
-            // Clipboard fallback
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(code);
             } else {
